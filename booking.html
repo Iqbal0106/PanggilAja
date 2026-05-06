@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking - Panggil Aja</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="container nav-container">
+        <a href="index.html" class="logo">
+            <img src="Images/logo.png" alt="Logo Panggil Aja">
+        </a>
+        <nav id="nav-menu">
+            <a href="index.html"><i data-lucide="home"></i> Home</a>
+            <a href="index.html#layanan"><i data-lucide="layers"></i> Layanan</a>
+            <a href="promo.html"><i data-lucide="tag"></i> Promo</a>
+            <a href="faq.html"><i data-lucide="help-circle"></i> FAQ</a>
+            <a href="tracking.html"><i data-lucide="map-pin"></i> Lacak</a>
+            <a href="booking.html" class="nav-cta"><i data-lucide="calendar-check"></i> Booking</a>
+        </nav>
+        <button class="hamburger" id="hamburger-btn"><i data-lucide="menu"></i></button>
+    </div>
+</header>
+
+<section class="section">
+    <div class="container">
+        <div class="booking-wrapper">
+            <div class="booking-text">
+                <span class="section-badge">Booking Online</span>
+                <h2>Jadwalkan Layanan Anda</h2>
+                <p>Isi form di samping untuk melakukan pemesanan. Tim kami akan menghubungi Anda segera melalui WhatsApp.</p>
+                <div class="booking-benefits">
+                    <div class="benefit-item"><i data-lucide="check-circle-2"></i><span>Konfirmasi instan via WA</span></div>
+                    <div class="benefit-item"><i data-lucide="check-circle-2"></i><span>Pekerja profesional</span></div>
+                </div>
+            </div>
+            <form id="booking-form" class="booking-form">
+                <div class="form-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" name="nama" required placeholder="Contoh: Budi Santoso">
+                </div>
+                <div class="form-group">
+                    <label>Alamat Lengkap</label>
+                    <textarea name="alamat" required placeholder="Jl. Mawar No. 123, Jakarta"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Layanan</label>
+                        <select name="layanan" required>
+                            <option value="laundry">Laundry Kiloan</option>
+                            <option value="cleaning">Cleaning Rumah</option>
+                            <option value="deep-cleaning">Deep Cleaning</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Tanggal</label>
+                        <input type="date" name="tanggal" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Waktu</label>
+                    <input type="time" name="waktu" required>
+                </div>
+                <button type="submit" class="btn-primary btn-block">Pesan Sekarang</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <!-- Logo + Deskripsi (Full Width) -->
+        <div class="footer-brand">
+            <a href="index.html" class="footer-logo">
+                <img src="Images/logo.png" alt="Logo Panggil Aja">
+            </a>
+            <p>Solusi kebersihan profesional untuk rumah dan pakaian Anda. Cepat, bersih, dan terpercaya.</p>
+        </div>
+
+        <!-- 3 Kolom Navigasi & Kontak -->
+        <div class="footer-grid">
+            <!-- Kolom 1: Layanan -->
+            <div class="footer-col">
+                <h4>Layanan</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html#layanan">Cleaning</a></li>
+                    <li><a href="index.html#layanan">Laundry</a></li>
+                    <li><a href="index.html#layanan">Deep Cleaning</a></li>
+                </ul>
+            </div>
+
+            <!-- Kolom 2: Bantuan -->
+            <div class="footer-col">
+                <h4>Bantuan</h4>
+                <ul class="footer-links">
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="promo.html">Promo</a></li>
+                    <li><a href="tracking.html">Lacak</a></li>
+                </ul>
+            </div>
+
+            <!-- Kolom 3: Kontak -->
+            <div class="footer-col">
+                <h4>Kontak</h4>
+                <ul class="footer-contact-info">
+                    <li>WhatsApp</li>
+                    <li>Makassar</li>
+                    <li>0895413318989</li>S
+                </ul>
+            </div>
+        </div>
+
+        <!-- Garis Separator + Copyright -->
+        <div class="footer-bottom">
+            <p>© 2026 Panggil Aja</p>
+        </div>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+<script src="booking.js"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>

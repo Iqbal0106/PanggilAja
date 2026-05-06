@@ -1,0 +1,884 @@
+:root {
+    --primary: #0d47a1; /* Biru Utama (70%) */
+    --primary-dark: #0a3580;
+    --accent: #ff9800; /* Orange Aksen (10%) */
+    --accent-hover: #e68a00;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --bg-light: #f8fafc;
+    --white: #ffffff; /* Putih Background (20%) */
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --radius: 12px;
+    --transition: all 0.3s ease;
+}
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--white);
+    color: var(--text-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* PROMO BANNER */
+.promo-banner {
+    background: var(--accent); /* Banner promo pakai Orange agar mencolok */
+    color: var(--white);
+    padding: 10px 0;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.promo-banner i {
+    width: 16px;
+    vertical-align: middle;
+    margin-right: 5px;
+    color: var(--white);
+}
+
+/* NAVBAR */
+header {
+    background: var(--white); /* Navbar jadi Putih */
+    padding: 0.8rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+}
+
+.logo img {
+    height: 45px; /* Ukuran logo dikecilkan kembali sesuai permintaan */
+    width: auto;
+    object-fit: contain;
+    transition: var(--transition);
+}
+
+.logo:hover img {
+    transform: scale(1.05);
+}
+
+.logo h2 {
+    font-size: 1.3rem; /* Ukuran teks logo disesuaikan */
+    font-weight: 800;
+    color: var(--primary); 
+}
+
+.logo h2 span {
+    color: var(--accent);
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+nav a {
+    color: var(--text-main); /* Teks navbar jadi warna utama (gelap) */
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+}
+
+nav a i {
+    width: 18px;
+    height: 18px;
+    opacity: 0.8;
+    color: var(--primary); /* Ikon jadi Biru */
+}
+
+nav a:hover, nav a.active {
+    color: var(--primary); /* Hover teks jadi Biru */
+}
+
+nav a:hover i, nav a.active i {
+    opacity: 1;
+    color: var(--accent); /* Ikon saat aktif jadi orange */
+}
+
+.nav-cta {
+    background: var(--accent); /* Tombol Booking tetap Orange sebagai CTA */
+    color: var(--white) !important;
+    padding: 10px 24px !important;
+    border-radius: 50px;
+    font-weight: 700;
+}
+
+.nav-cta i {
+    color: var(--white) !important; /* Ikon di tombol CTA tetap putih */
+}
+
+.nav-cta:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+}
+
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--primary); /* Hamburger jadi Biru */
+}
+
+/* HERO */
+.hero {
+    padding: 100px 0 80px;
+    background: radial-gradient(circle at top right, #eff6ff, transparent),
+                radial-gradient(circle at bottom left, #fff7ed, transparent);
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+}
+
+.hero-content {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 40px;
+    align-items: center;
+}
+
+.badge {
+    background: #fff7ed;
+    color: var(--accent); /* Badge pakai Orange */
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 20px;
+    border: 1px solid #ffedd5;
+}
+
+.hero-text h1 {
+    font-size: 3.5rem;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    font-weight: 800;
+}
+
+.hero-text h1 span {
+    color: var(--primary);
+}
+
+.hero-text p {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    max-width: 500px;
+}
+
+.hero-btns {
+    display: flex;
+    gap: 16px;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    padding: 14px 32px;
+    border-radius: var(--radius);
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary:hover {
+    background: var(--accent); /* Hover button pakai Orange */
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(255, 152, 0, 0.3);
+}
+
+.btn-secondary {
+    background: var(--white);
+    color: var(--text-main);
+    padding: 14px 32px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-weight: 600;
+    border: 1px solid #e2e8f0;
+    transition: var(--transition);
+}
+
+.btn-secondary:hover {
+    background: var(--white);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.hero-stats {
+    display: flex;
+    gap: 40px;
+    background: var(--white);
+    padding: 30px;
+    border-radius: 24px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--bg-light);
+}
+
+.stat-item h3 {
+    font-size: 2rem;
+    color: var(--accent); /* Ikon/Statistik kecil pakai Orange */
+    margin-bottom: 4px;
+}
+
+/* SECTION COMMON */
+.section {
+    padding: 100px 0;
+}
+
+.bg-light {
+    background: var(--bg-light);
+}
+
+.section-badge {
+    color: var(--accent); /* Badge kecil pakai Orange */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    display: block;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.section h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 50px;
+    font-weight: 800;
+    color: var(--primary); /* Heading pakai Biru */
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+/* FEATURE CARDS */
+.feature-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.feature-card {
+    text-align: center;
+    padding: 30px;
+}
+
+.feature-card i {
+    width: 48px;
+    height: 48px;
+    color: var(--accent); /* Ikon kecil pakai Orange */
+    margin-bottom: 20px;
+}
+
+.feature-card h3 {
+    margin-bottom: 12px;
+    font-size: 1.25rem;
+    color: var(--primary); /* Heading pakai Biru */
+}
+
+/* BEFORE AFTER */
+.ba-grid {
+    grid-template-columns: 1fr 1fr;
+}
+
+.ba-card {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+}
+
+.ba-img-container {
+    position: relative;
+    height: 250px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    overflow: hidden;
+    display: inline-block;
+    width: calc(50% - 5px);
+}
+
+.ba-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ba-label {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+}
+
+.ba-label.before { background: #ef4444; }
+.ba-label.after { background: #10b981; }
+
+.ba-caption {
+    text-align: center;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+/* CALCULATOR */
+.calculator-container {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 60px;
+    border: 1px solid var(--bg-light);
+}
+
+.calculator-container h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    color: var(--primary); /* Heading pakai Biru */
+}
+
+.calc-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+    align-items: end;
+}
+
+.calc-input label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--primary); /* Teks penting pakai Biru */
+}
+
+.calc-input input, .calc-input select {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    font-size: 1rem;
+    outline: none;
+}
+
+.calc-input input:focus, .calc-input select:focus {
+    border-color: var(--accent);
+}
+
+.calc-result {
+    background: var(--bg-light);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.calc-result h3 {
+    margin: 0;
+    color: var(--accent); /* Highlight angka pakai Orange */
+    font-size: 1.4rem; /* Ukuran teks total diperkecil */
+}
+
+.btn-calc-cta {
+    margin-top: 15px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    justify-content: center;
+}
+
+.btn-calc-cta i {
+    width: 16px;
+    height: 16px;
+}
+
+/* CARDS COMMON */
+.card {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: 1px solid transparent;
+}
+
+.card:hover {
+    border-color: var(--accent); /* Hover card pakai Orange */
+}
+
+.service-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-cta {
+    margin-top: auto;
+    color: var(--accent); /* Ikon panah pakai Orange */
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.875rem;
+    padding-top: 15px;
+}
+
+.card:hover .card-cta {
+    color: var(--accent-hover);
+}
+
+.card-cta i {
+    width: 16px;
+    height: 16px;
+}
+
+.card-image {
+    width: calc(100% + 80px);
+    margin: -40px -40px 24px -40px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 20px 20px 0 0;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* TRACKING */
+.tracking-card {
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--white);
+    padding: 50px;
+    border-radius: 30px;
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+    border: 1px solid var(--bg-light);
+}
+
+.tracking-input {
+    display: flex;
+    gap: 10px;
+    margin: 30px 0;
+}
+
+.tracking-input input {
+    flex: 1;
+    padding: 15px 20px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.tracking-input input:focus {
+    border-color: var(--accent);
+    outline: none;
+}
+
+.status-steps {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px 0;
+    position: relative;
+}
+
+.status-steps::before {
+    content: '';
+    position: absolute;
+    top: 25px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #e2e8f0;
+    z-index: 1;
+}
+
+.step {
+    position: relative;
+    z-index: 2;
+    background: var(--white);
+    width: 50px;
+    text-align: center;
+}
+
+.step i {
+    width: 50px;
+    height: 50px;
+    background: #f1f5f9;
+    border-radius: 50%;
+    padding: 12px;
+    margin-bottom: 10px;
+    color: #94a3b8;
+}
+
+.step.active i {
+    background: var(--accent); /* Ikon aktif pakai Orange */
+    color: var(--white);
+}
+
+.step p { font-size: 0.75rem; font-weight: 600; color: var(--primary); }
+
+/* BOOKING FORM */
+.booking-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.booking-benefits {
+    margin-top: 30px;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: var(--primary); /* Teks penting pakai Biru */
+}
+
+.benefit-item i { color: var(--accent); }
+
+.booking-form {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: var(--shadow-lg);
+}
+
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--primary); }
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--accent);
+    outline: none;
+}
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.btn-block { width: 100%; }
+
+/* FAQ */
+.faq-list { max-width: 800px; margin: 0 auto; }
+.faq-item {
+    background: var(--white);
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.faq-question {
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background: var(--white);
+}
+
+.faq-question h3 { font-size: 1.1rem; color: var(--primary); }
+.faq-question i { color: var(--accent); }
+
+.faq-answer {
+    padding: 0 25px 25px;
+    display: none;
+    color: var(--text-muted);
+}
+
+.faq-item.active .faq-answer { display: block; }
+.faq-item.active i { transform: rotate(180deg); }
+
+/* TESTIMONIAL */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.user-profile img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-meta {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-meta strong {
+    font-size: 1.1rem;
+    color: var(--primary);
+}
+
+.stars { color: var(--accent); font-size: 0.875rem; }
+
+/* FLOATING WA */
+.wa-floating {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: var(--accent); /* Tombol WA pakai Orange */
+    color: var(--white);
+    padding: 10px 18px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.875rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    z-index: 999;
+    transition: var(--transition);
+}
+
+.wa-floating:hover { 
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    background: var(--accent-hover);
+}
+
+.wa-floating i {
+    width: 18px;
+    height: 18px;
+}
+
+/* SOCIAL PROOF */
+.social-proof {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    background: var(--white);
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transform: translateY(150%);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 998;
+}
+
+.social-proof.show { transform: translateY(0); }
+.sp-icon { background: #fff7ed; color: var(--accent); padding: 8px; border-radius: 8px; }
+.sp-text p { font-size: 0.875rem; margin: 0; }
+.sp-text span { font-size: 0.75rem; color: var(--text-muted); }
+
+/* FOOTER */
+footer {
+    padding: 60px 0 30px;
+    background: #f8fafc; /* Abu sangat muda */
+    border-top: 1px solid #e2e8f0;
+    color: var(--text-main);
+    text-align: center; /* Menengahkan teks dasar */
+}
+
+.footer-brand {
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto; /* Center block */
+    margin-right: auto; /* Center block */
+}
+
+.footer-brand .footer-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    text-decoration: none;
+    justify-content: center;
+}
+
+.footer-brand .footer-logo img {
+    height: 75px;
+    width: auto;
+}
+
+.footer-brand .footer-logo h2 {
+    font-size: 1.25rem;
+    color: var(--primary);
+    font-weight: 800;
+}
+
+.footer-brand p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 50px;
+    max-width: 900px; /* Limit width for better centering */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.footer-col h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text-main);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.footer-links a:hover {
+    color: var(--primary);
+}
+
+.footer-contact-info {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-contact-info li {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.footer-bottom {
+    padding-top: 25px;
+    border-top: 1px dashed #cbd5e1; /* Garis putus-putus sesuai gambar */
+    display: flex;
+    justify-content: center; /* Menengahkan copyright */
+}
+
+.footer-bottom p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* RESPONSIVE FOOTER */
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
+/* HIGHLIGHT CLASS */
+.highlight {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.badge-promo {
+    background: var(--accent);
+    color: var(--white);
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 968px) {
+    .hero-content { grid-template-columns: 1fr; text-align: center; }
+    .hero-btns { justify-content: center; }
+    .hero-stats { justify-content: center; }
+    
+    .hamburger { display: block; }
+    nav {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: white;
+        flex-direction: column;
+        padding: 40px;
+        gap: 20px;
+        transform: translateY(-150%);
+        transition: var(--transition);
+        box-shadow: 0 10px 10px rgba(0,0,0,0.05);
+    }
+    nav.show { transform: translateY(0); }
+    
+    .calc-box { grid-template-columns: 1fr; }
+    .ba-grid { grid-template-columns: 1fr; }
+    .booking-wrapper { grid-template-columns: 1fr; }
+}
+
+.hidden { display: none; }
