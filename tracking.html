@@ -22,7 +22,7 @@
             <a href="index.html#layanan"><i data-lucide="layers"></i> Layanan</a>
             <a href="promo.html"><i data-lucide="tag"></i> Promo</a>
             <a href="faq.html"><i data-lucide="help-circle"></i> FAQ</a>
-            <a href="tracking.html" class="active"><i data-lucide="map-pin"></i> Lacak</a>
+            <a href="tracking.html" class="active"><i data-lucide="clock"></i> Status</a>
             <a href="booking.html" class="nav-cta"><i data-lucide="calendar-check"></i> Booking</a>
         </nav>
         <button class="hamburger" id="hamburger-btn"><i data-lucide="menu"></i></button>
@@ -32,20 +32,21 @@
 <section class="section">
     <div class="container">
         <div class="tracking-card">
-            <span class="section-badge">Status Pesanan</span>
-            <h2>Lacak Pesanan Anda</h2>
+            <span class="section-badge">Cek Status</span>
+            <h2>Status Pesanan Anda</h2>
             <div class="tracking-input">
                 <input type="text" id="order-id" placeholder="Masukkan ID Pesanan (Contoh: PGL-123)">
                 <button onclick="trackOrder()" class="btn-primary">Cek Status</button>
             </div>
             <div id="tracking-result" class="tracking-result hidden">
-                <div class="status-steps">
-                    <div class="step active"><i data-lucide="shopping-bag"></i><p>Dipesan</p></div>
-                    <div class="step active"><i data-lucide="truck"></i><p>Dijemput</p></div>
-                    <div class="step"><i data-lucide="refresh-cw"></i><p>Diproses</p></div>
-                    <div class="step"><i data-lucide="check-circle"></i><p>Selesai</p></div>
+                <div class="status-steps simple-status">
+                    <div class="step active" id="step-1"><i data-lucide="clock"></i><p>Menunggu</p></div>
+                    <div class="step" id="step-2"><i data-lucide="refresh-cw"></i><p>Diproses</p></div>
+                    <div class="step" id="step-3"><i data-lucide="check-circle"></i><p>Selesai</p></div>
                 </div>
-                <p class="status-info">Status: <strong>Pesanan sedang dalam proses pencucian</strong></p>
+                <div class="status-info-box">
+                    <p class="status-info">Status Saat Ini: <strong id="current-status-text">Pesanan sedang menunggu penjemputan</strong></p>
+                </div>
             </div>
         </div>
     </div>
@@ -79,7 +80,7 @@
                 <ul class="footer-links">
                     <li><a href="faq.html">FAQ</a></li>
                     <li><a href="promo.html">Promo</a></li>
-                    <li><a href="tracking.html">Lacak</a></li>
+                    <li><a href="tracking.html">Status</a></li>
                 </ul>
             </div>
 
@@ -106,8 +107,36 @@
     const trackOrder = () => {
         const orderId = document.getElementById('order-id').value.trim();
         const resultDiv = document.getElementById('tracking-result');
-        if (orderId === "") { alert("Silakan masukkan ID Pesanan"); return; }
+        const statusText = document.getElementById('current-status-text');
+        const step2 = document.getElementById('step-2');
+        const step3 = document.getElementById('step-3');
+
+        if (orderId === "") { 
+            alert("Silakan masukkan ID Pesanan"); 
+            return; 
+        }
+
+        // Mock logic for simple status
         resultDiv.classList.remove('hidden');
+        
+        // Randomly show one of the 3 statuses for demo purposes
+        const randomStatus = Math.floor(Math.random() * 3);
+        
+        if (randomStatus === 0) {
+            statusText.innerText = "Pesanan sedang menunggu penjemputan";
+            step2.classList.remove('active');
+            step3.classList.remove('active');
+        } else if (randomStatus === 1) {
+            statusText.innerText = "Pesanan sedang diproses oleh tim kami";
+            step2.classList.add('active');
+            step3.classList.remove('active');
+        } else {
+            statusText.innerText = "Pesanan telah selesai! Terima kasih.";
+            step2.classList.add('active');
+            step3.classList.add('active');
+        }
+        
+        lucide.createIcons();
     };
     lucide.createIcons();
 </script>
