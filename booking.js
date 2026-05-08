@@ -5,6 +5,8 @@ const successOrderId = document.getElementById('success-order-id');
 const successOrderStatus = document.getElementById('success-order-status');
 const successOrderEta = document.getElementById('success-order-eta');
 const successTrackLink = document.getElementById('success-track-link');
+const ORDER_STORAGE_KEY = 'panggilAjaOrders';
+const LAST_BOOKING_KEY = 'lastBookingId';
 
 // Pre-select service from URL
 const serviceLabels = {
@@ -44,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 if (bookingForm) {
-    bookingForm.addEventListener('submit', (e) => {
+    bookingForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const formData = new FormData(bookingForm);
@@ -58,25 +60,34 @@ if (bookingForm) {
         const shortId = String(now).slice(-4);
         const orderId = `PGL-${shortId}`;
         const status = 'Menunggu Konfirmasi';
-        const eta = `${date} ${waktu} WITA`;
+        const schedule = `${date} ${waktu} WITA`;
 
-        const existingOrders = JSON.parse(localStorage.getItem('panggilAjaOrders') || '[]');
-        existingOrders.push({
+        const orderPayload = {
             id: orderId,
             name,
             service,
             address: alamat,
             date,
             time: waktu,
+            schedule,
             status,
-            eta,
-            createdAt: now
-        });
-        localStorage.setItem('panggilAjaOrders', JSON.stringify(existingOrders));
+            statusIndex: 0,
+            createdAt: now,
+            bookedAt: new Date(now).toISOString()
+        };
+
+        const existingOrders = JSON.parse(localStorage.getItem(ORDER_STORAGE_KEY) || '[]');
+        existingOrders.push(orderPayload);
+        localStorage.setItem(ORDER_STORAGE_KEY, JSON.stringify(existingOrders));
+        localStorage.setItem(LAST_BOOKING_KEY, orderId);
+
+        if (window.PanggilAjaDB && window.PanggilAjaDB.isConfigured()) {
+            await window.PanggilAjaDB.createOrder(orderPayload);
+        }
 
         if (successOrderId) successOrderId.textContent = orderId;
         if (successOrderStatus) successOrderStatus.textContent = status;
-        if (successOrderEta) successOrderEta.textContent = eta;
+        if (successOrderEta) successOrderEta.textContent = schedule;
         if (successTrackLink) successTrackLink.setAttribute('href', `tracking.html?orderId=${encodeURIComponent(orderId)}`);
         if (successBox) successBox.classList.remove('hidden');
     });

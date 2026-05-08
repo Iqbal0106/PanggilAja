@@ -33,18 +33,34 @@
         <div class="tracking-card">
             <span class="section-badge">Cek Status</span>
             <h2>Status Pesanan Anda</h2>
-            <div class="tracking-input">
-                <input type="text" id="order-id" placeholder="Masukkan ID Pesanan (Contoh: PGL-123)">
-                <button onclick="trackOrder()" class="btn-primary">Cek Status</button>
+            <form id="tracking-form" class="tracking-input">
+                <input type="text" id="order-id" placeholder="Masukkan ID Pesanan (Contoh: PGL-2041)">
+                <button type="submit" class="btn-primary">Cek Status</button>
+            </form>
+            <p id="tracking-error" class="tracking-error hidden"></p>
+            <div id="last-booking-shortcut" class="last-booking-shortcut hidden">
+                <p>Punya pesanan terbaru?</p>
+                <button id="use-last-booking" class="btn-secondary" type="button">Cek pesanan terakhir Anda</button>
+            </div>
+            <div id="tracking-loading" class="tracking-loading hidden">
+                <div class="loading-spinner"></div>
+                <p>Mencari data pesanan...</p>
             </div>
             <div id="tracking-result" class="tracking-result hidden">
-                <div class="status-steps simple-status">
-                    <div class="step active" id="step-1"><i data-lucide="clock"></i><p>Menunggu</p></div>
-                    <div class="step" id="step-2"><i data-lucide="refresh-cw"></i><p>Diproses</p></div>
-                    <div class="step" id="step-3"><i data-lucide="check-circle"></i><p>Selesai</p></div>
+                <div class="status-header">
+                    <p class="status-order-id" id="status-order-id">ID: -</p>
+                    <span class="status-badge" id="status-badge">Menunggu Konfirmasi</span>
+                </div>
+                <div class="status-steps status-steps-modern" id="status-steps"></div>
+                <div class="order-details-grid">
+                    <div class="order-detail-item"><span>Nama Customer</span><strong id="detail-name">-</strong></div>
+                    <div class="order-detail-item"><span>Layanan</span><strong id="detail-service">-</strong></div>
+                    <div class="order-detail-item"><span>Alamat</span><strong id="detail-address">-</strong></div>
+                    <div class="order-detail-item"><span>Jadwal</span><strong id="detail-schedule">-</strong></div>
+                    <div class="order-detail-item"><span>Waktu Booking</span><strong id="detail-booked-at">-</strong></div>
                 </div>
                 <div class="status-info-box">
-                    <p class="status-info">Status Saat Ini: <strong id="current-status-text">Pesanan sedang menunggu penjemputan</strong></p>
+                    <p class="status-info">Status Saat Ini: <strong id="current-status-text">-</strong></p>
                 </div>
             </div>
         </div>
@@ -101,72 +117,182 @@
     </div>
 </footer>
 <script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
 <script>
+    const ORDER_STORAGE_KEY = 'panggilAjaOrders';
+    const LAST_BOOKING_KEY = 'lastBookingId';
+    const STATUS_STEPS = [
+        'Menunggu Konfirmasi',
+        'Teknisi Diproses',
+        'Teknisi Menuju Lokasi',
+        'Sedang Dikerjakan',
+        'Selesai'
+    ];
+
+    const trackingForm = document.getElementById('tracking-form');
+    const orderInput = document.getElementById('order-id');
+    const trackingResult = document.getElementById('tracking-result');
+    const trackingError = document.getElementById('tracking-error');
+    const trackingLoading = document.getElementById('tracking-loading');
+    const currentStatusText = document.getElementById('current-status-text');
+    const statusBadge = document.getElementById('status-badge');
+    const statusOrderId = document.getElementById('status-order-id');
+    const statusStepsContainer = document.getElementById('status-steps');
+    const lastBookingShortcut = document.getElementById('last-booking-shortcut');
+    const useLastBookingBtn = document.getElementById('use-last-booking');
+
     const getStoredOrders = () => {
         try {
-            return JSON.parse(localStorage.getItem('panggilAjaOrders') || '[]');
+            return JSON.parse(localStorage.getItem(ORDER_STORAGE_KEY) || '[]');
         } catch (error) {
             return [];
         }
     };
 
-    const resetSteps = () => {
-        const step2 = document.getElementById('step-2');
-        const step3 = document.getElementById('step-3');
-        step2.classList.remove('active');
-        step3.classList.remove('active');
+    const toTitleCase = (value) => {
+        return (value || '')
+            .toString()
+            .replace(/-/g, ' ')
+            .replace(/\b\w/g, (c) => c.toUpperCase());
     };
 
-    const renderStatus = (status) => {
-        const statusText = document.getElementById('current-status-text');
-        const step2 = document.getElementById('step-2');
-        const step3 = document.getElementById('step-3');
+    const formatBookedAt = (isoDate) => {
+        if (!isoDate) return '-';
+        const date = new Date(isoDate);
+        if (Number.isNaN(date.getTime())) return '-';
+        return new Intl.DateTimeFormat('id-ID', {
+            dateStyle: 'medium',
+            timeStyle: 'short'
+        }).format(date);
+    };
 
-        resetSteps();
+    const showError = (message) => {
+        trackingError.textContent = message;
+        trackingError.classList.remove('hidden');
+        trackingResult.classList.add('hidden');
+    };
 
-        if (status === 'Diproses') {
-            step2.classList.add('active');
-        } else if (status === 'Selesai') {
-            step2.classList.add('active');
-            step3.classList.add('active');
+    const clearError = () => {
+        trackingError.textContent = '';
+        trackingError.classList.add('hidden');
+    };
+
+    const setLoading = (isLoading) => {
+        trackingLoading.classList.toggle('hidden', !isLoading);
+    };
+
+    const resolveStatusIndex = (order) => {
+        if (typeof order.statusIndex === 'number') {
+            return Math.max(0, Math.min(STATUS_STEPS.length - 1, order.statusIndex));
         }
 
-        statusText.innerText = status;
+        const createdAt = Number(order.createdAt || Date.now());
+        const elapsedMs = Date.now() - createdAt;
+        const elapsedHours = Math.max(0, Math.floor(elapsedMs / (1000 * 60 * 60)));
+        if (elapsedHours >= 8) return 4;
+        if (elapsedHours >= 3) return 3;
+        if (elapsedHours >= 1) return 2;
+        if (elapsedHours >= 0.25) return 1;
+        return 0;
     };
 
-    const trackOrder = () => {
-        const orderId = document.getElementById('order-id').value.trim();
-        const resultDiv = document.getElementById('tracking-result');
+    const renderTimeline = (currentStepIndex) => {
+        statusStepsContainer.innerHTML = STATUS_STEPS.map((step, index) => {
+            const state = index < currentStepIndex ? 'done' : index === currentStepIndex ? 'active' : '';
+            return `<div class="timeline-step ${state}">
+                        <span class="timeline-index">${index + 1}</span>
+                        <p>${step}</p>
+                    </div>`;
+        }).join('');
+    };
 
-        if (orderId === "") { 
-            alert("Silakan masukkan ID Pesanan"); 
-            return; 
+    const renderOrderDetails = (order, statusLabel) => {
+        document.getElementById('detail-name').textContent = order.name || '-';
+        document.getElementById('detail-service').textContent = toTitleCase(order.service);
+        document.getElementById('detail-address').textContent = order.address || '-';
+        document.getElementById('detail-schedule').textContent = order.schedule || `${order.date || '-'} ${order.time || ''}`.trim();
+        document.getElementById('detail-booked-at').textContent = formatBookedAt(order.bookedAt);
+        statusOrderId.textContent = `ID: ${order.id}`;
+        statusBadge.textContent = statusLabel;
+        currentStatusText.textContent = statusLabel;
+    };
+
+    const getOrderById = async (orderId) => {
+        if (window.PanggilAjaDB && window.PanggilAjaDB.isConfigured()) {
+            const remoteResult = await window.PanggilAjaDB.getOrderById(orderId);
+            if (remoteResult.ok && remoteResult.data) {
+                return remoteResult.data;
+            }
         }
 
         const orders = getStoredOrders();
-        const matchedOrder = orders.find(order => order.id.toLowerCase() === orderId.toLowerCase());
+        return orders.find(order => order.id.toLowerCase() === orderId.toLowerCase()) || null;
+    };
 
-        if (!matchedOrder) {
-            alert('ID pesanan tidak ditemukan. Pastikan ID benar.');
+    const trackOrder = async () => {
+        const orderId = orderInput.value.trim();
+
+        clearError();
+        trackingResult.classList.add('hidden');
+
+        if (!orderId) {
+            showError('Masukkan ID pesanan terlebih dahulu.');
             return;
         }
 
-        resultDiv.classList.remove('hidden');
-        renderStatus(matchedOrder.status || 'Menunggu Konfirmasi');
+        setLoading(true);
+        const matchedOrder = await getOrderById(orderId);
 
-        lucide.createIcons();
+        if (!matchedOrder) {
+            setLoading(false);
+            showError('ID pesanan tidak ditemukan. Periksa kembali dan coba lagi.');
+            return;
+        }
+
+        setTimeout(() => {
+            const currentStepIndex = resolveStatusIndex(matchedOrder);
+            const statusLabel = STATUS_STEPS[currentStepIndex];
+            renderTimeline(currentStepIndex);
+            renderOrderDetails(matchedOrder, statusLabel);
+            trackingResult.classList.remove('hidden');
+            setLoading(false);
+        }, 700);
     };
 
     document.addEventListener('DOMContentLoaded', () => {
         const params = new URLSearchParams(window.location.search);
         const orderIdFromUrl = params.get('orderId');
-        const orderInput = document.getElementById('order-id');
+        const lastBookingId = localStorage.getItem(LAST_BOOKING_KEY);
+
+        if (lastBookingId && lastBookingShortcut) {
+            lastBookingShortcut.classList.remove('hidden');
+        }
 
         if (orderIdFromUrl && orderInput) {
             orderInput.value = orderIdFromUrl;
             trackOrder();
         }
     });
+
+    if (trackingForm) {
+        trackingForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            trackOrder();
+        });
+    }
+
+    if (useLastBookingBtn) {
+        useLastBookingBtn.addEventListener('click', () => {
+            const lastBookingId = localStorage.getItem(LAST_BOOKING_KEY);
+            if (!lastBookingId) {
+                showError('Belum ada pesanan terakhir yang tersimpan.');
+                return;
+            }
+            orderInput.value = lastBookingId;
+            trackOrder();
+        });
+    }
 
     lucide.createIcons();
 </script>
