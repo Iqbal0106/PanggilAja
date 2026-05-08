@@ -2,13 +2,38 @@
 const bookingForm = document.getElementById('booking-form');
 
 // Pre-select service from URL
+const serviceLabels = {
+    'laundry': 'Laundry Kiloan',
+    'cleaning': 'Cleaning Rumah',
+    'deep-cleaning': 'Deep Cleaning'
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const service = urlParams.get('service');
+
     if (service && bookingForm) {
         const select = bookingForm.querySelector('select[name="layanan"]');
-        if (select) {
-            select.value = service;
+        const label = select ? select.closest('.form-group')?.querySelector('label') : null;
+        const heading = document.querySelector('.booking-text h2');
+        const serviceName = serviceLabels[service];
+
+        if (select && serviceName) {
+            const option = select.querySelector(`option[value="${service}"]`);
+            if (option) {
+                select.innerHTML = '';
+                select.appendChild(option);
+                select.value = service;
+            }
+        }
+
+        if (label && serviceName) {
+            label.textContent = `Layanan (${serviceName})`;
+        }
+
+        if (heading && serviceName) {
+            heading.textContent = `Booking ${serviceName}`;
+            document.title = `Booking ${serviceName} - Panggil Aja`;
         }
     }
 });

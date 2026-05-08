@@ -9,6 +9,111 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* ── FAQ Category Tabs ── */
+        .faq-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 2rem;
+        }
+        .faq-tab {
+            padding: 8px 18px;
+            border-radius: 999px;
+            border: 2px solid #e2e8f0;
+            background: #fff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #64748b;
+        }
+        .faq-tab.active, .faq-tab:hover {
+            background: var(--primary, #2563eb);
+            border-color: var(--primary, #2563eb);
+            color: #fff;
+        }
+
+        /* ── Category Label ── */
+        .faq-category {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--primary, #2563eb);
+            margin: 2rem 0 0.5rem;
+        }
+        .faq-category:first-of-type { margin-top: 0; }
+
+        /* ── FAQ Item ── */
+        .faq-item {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            background: #fff;
+            transition: box-shadow 0.2s;
+        }
+        .faq-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+        .faq-item.open { border-color: var(--primary, #2563eb); }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.1rem 1.3rem;
+            cursor: pointer;
+            gap: 1rem;
+        }
+        .faq-question h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0;
+            color: #1e293b;
+        }
+        .faq-question i {
+            flex-shrink: 0;
+            transition: transform 0.3s;
+            color: #94a3b8;
+        }
+        .faq-item.open .faq-question i { transform: rotate(180deg); color: var(--primary, #2563eb); }
+
+        .faq-answer {
+            display: none;
+            padding: 0 1.3rem 1.2rem;
+            color: #475569;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+        .faq-answer ul {
+            padding-left: 1.2rem;
+            margin: 0.5rem 0 0;
+        }
+        .faq-answer ul li { margin-bottom: 4px; }
+        .faq-item.open .faq-answer { display: block; }
+
+        /* ── CTA Banner ── */
+        .faq-cta {
+            margin-top: 3rem;
+            background: var(--primary, #2563eb);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            color: #fff;
+        }
+        .faq-cta h3 { margin: 0 0 0.5rem; font-size: 1.2rem; }
+        .faq-cta p { margin: 0 0 1.2rem; opacity: 0.85; font-size: 0.95rem; }
+        .faq-cta a {
+            background: #fff;
+            color: var(--primary, #2563eb);
+            padding: 10px 24px;
+            border-radius: 999px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        .faq-cta a:hover { opacity: 0.9; }
+    </style>
 </head>
 <body>
 
@@ -32,37 +137,232 @@
 <section class="section">
     <div class="container">
         <span class="section-badge">FAQ</span>
-        <h2>Pertanyaan Umum</h2>
-        <div class="faq-list">
-            <div class="faq-item">
-                <div class="faq-question"><h3>Berapa lama proses laundry?</h3><i data-lucide="chevron-down"></i></div>
-                <div class="faq-answer"><p>Proses laundry reguler memakan waktu 2-3 hari. Kami juga menyediakan layanan Ekspres (1 hari) dan Kilat (6 jam).</p></div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question"><h3>Apakah alat cleaning disediakan?</h3><i data-lucide="chevron-down"></i></div>
-                <div class="faq-answer"><p>Ya, tim kami sudah membawa peralatan lengkap dan cairan pembersih premium.</p></div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question"><h3>Bagaimana cara pembayarannya?</h3><i data-lucide="chevron-down"></i></div>
-                <div class="faq-answer"><p>Kami menerima pembayaran tunai (COD) maupun transfer bank setelah layanan selesai.</p></div>
-            </div>
+        <h2>Pertanyaan yang Sering Ditanya</h2>
+        <p style="color:#64748b; margin-bottom:2rem;">Tidak menemukan jawaban yang kamu cari? Hubungi kami langsung via <a href="https://wa.me/62895413318989" style="color:var(--primary);">WhatsApp</a>.</p>
+
+        <!-- Filter Tabs -->
+        <div class="faq-tabs">
+            <button class="faq-tab active" data-filter="all">Semua</button>
+            <button class="faq-tab" data-filter="umum">Umum</button>
+            <button class="faq-tab" data-filter="laundry">Laundry</button>
+            <button class="faq-tab" data-filter="cleaning">Cleaning</button>
+            <button class="faq-tab" data-filter="pemesanan">Pemesanan & Bayar</button>
         </div>
+
+        <div class="faq-list" id="faq-list">
+
+            <!-- ── UMUM ── -->
+            <p class="faq-category" data-category="umum">🏠 Umum</p>
+
+            <div class="faq-item" data-category="umum">
+                <div class="faq-question">
+                    <h3>Apa itu Panggil Aja?</h3>
+                    <i data-lucide="chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Panggil Aja adalah layanan laundry dan cleaning profesional berbasis di Makassar. Cukup pesan secara online, tim kami datang ke lokasi Anda untuk mengambil atau mengerjakan layanan langsung di tempat.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="umum">
+                <div class="faq-question">
+                    <h3>Area mana saja yang dilayani?</h3>
+                    <i data-lucide="chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Saat ini kami melayani berbagai area di Makassar, termasuk Panakkukang, Tamalanrea, Rappocini, Manggala, dan sekitarnya. Hubungi kami via WhatsApp untuk memastikan area Anda terjangkau.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="umum">
+                <div class="faq-question">
+                    <h3>Jam operasional Panggil Aja?</h3>
+                    <i data-lucide="chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Kami beroperasi setiap <strong>Senin–Sabtu, pukul 08.00–20.00 WITA</strong>. Untuk pemesanan di luar jam operasional, silakan hubungi kami via WhatsApp dan kami akan membantu sebaik mungkin.</p>
+                </div>
+            </div>
+
+            <!-- ── LAUNDRY ── -->
+            <p class="faq-category" data-category="laundry">👕 Laundry</p>
+
+            <div class="faq-item" data-category="laundry">
+                <div class="faq-question">
+                    <h3>Berapa lama proses laundry?</h3>
+                    <i data-lucide="chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Tergantung jenis layanan yang dipilih:</p>
+                    <ul>
+                        <li><strong>Reguler:</strong> 2–3 hari kerja — Rp7.000/kg</li>
+                        <li><strong>Ekspres:</strong> 1 hari (masuk sebelum jam 10.00) — Rp12.000/kg</li>
+                        <li><strong>Kilat:</strong> 6 jam — hubungi admin untuk harga</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="laundry">
+                <div class="faq-question">
+                    <h3>Apakah ada berat minimum untuk laundry kiloan?</h3>
+                    <i data-lucide="chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Ya, minimum pemesanan laundry kiloan adalah <strong>2 kg</strong>. Untuk pakaian satuan (jas, gaun, dll.), tidak ada minimum berat.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="laundry">
+                <div class="faq-question">
+                    <h3>Apakah deterjen dan pewangi disediakan?</h3>
+                    <i data-lucide="chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Ya, kami menggunakan deterjen ramah lingkungan dan pewangi premium. Jika Anda memiliki deterjen atau pewangi khusus, kami dengan senang hati menggunakannya — cukup informasikan saat pemesanan.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="laundry">
+                <div class="faq-question">
+                    <h3>Bagaimana jika pakaian saya rusak atau hilang?</h3>
+                    <i data-lucide="chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Kami bertanggung jawab penuh atas pakaian yang kami tangani. Jika terjadi kerusakan atau kehilangan akibat kelalaian kami, kami siap memberikan ganti rugi sesuai kesepakatan. Pastikan Anda melaporkan kondisi pakaian saat proses pengambilan.</p>
+                </div>
+            </div>
+
+            <!-- ── CLEANING ── -->
+            <p class="faq-category" data-category="cleaning">🧹 Cleaning</p>
+
+            <div class="faq-item" data-category="cleaning">
+                <div class="faq-question">
+                    <h3>Apakah peralatan cleaning disediakan oleh tim?</h3>
+                    <i data-lucide="chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Ya, tim kami datang dengan membawa peralatan lengkap dan cairan pembersih premium. Anda tidak perlu menyiapkan apa pun.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="cleaning">
+                <div class="faq-question">
+                    <h3>Apa perbedaan Cleaning dan Deep Cleaning?</h3>
+                    <i data-lucide="chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p><strong>Cleaning</strong> mencakup kebersihan rutin: menyapu, mengepel, membersihkan debu, dan kamar mandi ringan. Mulai Rp100.000.</p>
+                    <p style="margin-top:8px"><strong>Deep Cleaning</strong> lebih menyeluruh: membersihkan kerak membandel, sterilisasi ruangan, vakum tungau kasur/sofa, dan area yang jarang dibersihkan. Mulai Rp250.000.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="cleaning">
+                <div class="faq-question">
+                    <h3>Berapa lama waktu pengerjaan cleaning?</h3>
+                    <i data-lucide="chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Waktu pengerjaan tergantung luas dan kondisi ruangan:</p>
+                    <ul>
+                        <li><strong>Cleaning biasa:</strong> 2–3 jam untuk rumah tipe 36–45</li>
+                        <li><strong>Deep Cleaning:</strong> 4–6 jam atau lebih tergantung kondisi</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="cleaning">
+                <div class="faq-question">
+                    <h3>Apakah saya harus ada di rumah saat cleaning berlangsung?</h3>
+                    <i data-lucide="chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Sebaiknya ada, terutama untuk kunjungan pertama. Namun jika Anda sudah mempercayai tim kami dan memberikan akses, petugas yang telah terverifikasi dapat mengerjakan tanpa kehadiran Anda.</p>
+                </div>
+            </div>
+
+            <!-- ── PEMESANAN & BAYAR ── -->
+            <p class="faq-category" data-category="pemesanan">💳 Pemesanan & Pembayaran</p>
+
+            <div class="faq-item" data-category="pemesanan">
+                <div class="faq-question">
+                    <h3>Bagaimana cara memesan layanan?</h3>
+                    <i data-lucide="chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Sangat mudah! Anda bisa memesan melalui:</p>
+                    <ul>
+                        <li>Formulir <a href="booking.html" style="color:var(--primary)">Booking</a> di website ini</li>
+                        <li>WhatsApp ke <a href="https://wa.me/62895413318989" style="color:var(--primary)">0895-4133-18989</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="pemesanan">
+                <div class="faq-question">
+                    <h3>Metode pembayaran apa yang diterima?</h3>
+                    <i data-lucide="chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Kami menerima:</p>
+                    <ul>
+                        <li>Tunai (COD) — dibayar setelah layanan selesai</li>
+                        <li>Transfer bank</li>
+                        <li>Dompet digital: DANA, GoPay, OVO <em>(segera tersedia)</em></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="pemesanan">
+                <div class="faq-question">
+                    <h3>Apakah bisa membatalkan atau menjadwal ulang pesanan?</h3>
+                    <i data-lucide="chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Bisa. Pembatalan atau penjadwalan ulang dapat dilakukan <strong>maksimal 2 jam sebelum</strong> waktu yang dijadwalkan dengan menghubungi admin via WhatsApp.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="pemesanan">
+                <div class="faq-question">
+                    <h3>Apakah ada diskon untuk pelanggan baru?</h3>
+                    <i data-lucide="chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Ya! Pelanggan baru mendapatkan <strong>diskon 20%</strong> untuk pesanan pertama. Cek halaman <a href="promo.html" style="color:var(--primary)">Promo</a> untuk penawaran terbaru lainnya.</p>
+                </div>
+            </div>
+
+        </div><!-- end faq-list -->
+
+        <!-- CTA Banner -->
+        <div class="faq-cta">
+            <h3>Masih ada pertanyaan?</h3>
+            <p>Tim admin kami siap membantu kamu kapan saja via WhatsApp.</p>
+            <a href="https://wa.me/62895413318989">💬 Chat Sekarang</a>
+        </div>
+
     </div>
 </section>
 
 <footer>
     <div class="container">
-        <!-- Logo + Deskripsi (Full Width) -->
         <div class="footer-brand">
             <a href="index.html" class="footer-logo">
                 <img src="Images/logo.png" alt="Logo Panggil Aja">
             </a>
             <p>Solusi kebersihan profesional untuk rumah dan pakaian Anda. Cepat, bersih, dan terpercaya.</p>
         </div>
-
-        <!-- 3 Kolom Navigasi & Kontak -->
+        <div class="footer-info">
+            <div class="footer-info-item">
+                <h4>Jam Operasional</h4>
+                <p>Senin–Sabtu, 08.00–20.00 WITA</p>
+            </div>
+            <div class="footer-info-item">
+                <h4>Area Jangkauan</h4>
+                <p>Panakkukang, Tamalanrea, Rappocini, dan sekitarnya.</p>
+            </div>
+        </div>
         <div class="footer-grid">
-            <!-- Kolom 1: Layanan -->
             <div class="footer-col">
                 <h4>Layanan</h4>
                 <ul class="footer-links">
@@ -71,8 +371,6 @@
                     <li><a href="index.html#layanan">Deep Cleaning</a></li>
                 </ul>
             </div>
-
-            <!-- Kolom 2: Bantuan -->
             <div class="footer-col">
                 <h4>Bantuan</h4>
                 <ul class="footer-links">
@@ -81,8 +379,6 @@
                     <li><a href="tracking.html">Status</a></li>
                 </ul>
             </div>
-
-            <!-- Kolom 3: Kontak -->
             <div class="footer-col">
                 <h4>Kontak</h4>
                 <ul class="footer-contact-info">
@@ -92,8 +388,6 @@
                 </ul>
             </div>
         </div>
-
-        <!-- Garis Separator + Copyright -->
         <div class="footer-bottom">
             <p>© 2026 Panggil Aja</p>
         </div>
@@ -101,7 +395,29 @@
 </footer>
 
 <script src="script.js"></script>
-<script src="faq.js"></script>
+<script>
+    // ── Accordion ──
+    document.querySelectorAll('.faq-question').forEach(q => {
+        q.addEventListener('click', () => {
+            const item = q.parentElement;
+            const isOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+            if (!isOpen) item.classList.add('open');
+        });
+    });
+
+    // ── Filter Tabs ──
+    document.querySelectorAll('.faq-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.faq-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const filter = tab.dataset.filter;
+            document.querySelectorAll('.faq-item, .faq-category').forEach(el => {
+                el.style.display = (filter === 'all' || el.dataset.category === filter) ? '' : 'none';
+            });
+        });
+    });
+</script>
 <script>lucide.createIcons();</script>
 </body>
 </html>
