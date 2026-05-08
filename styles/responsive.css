@@ -74,10 +74,6 @@
         height: 420px;
     }
 
-    .app-mockup-card {
-        right: 10px;
-    }
-
     .technician-note {
         left: 10px;
         bottom: 14px;
@@ -149,11 +145,6 @@
     .hero-img {
         height: 320px;
         border-radius: 24px;
-    }
-
-    .app-mockup-card {
-        width: 185px;
-        top: 10px;
     }
 
     .technician-note {
