@@ -1,0 +1,239 @@
+@media (max-width: 1200px) {
+    .services-grid,
+    .pricing-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 992px) {
+    .step-line {
+        display: none;
+    }
+
+    .container {
+        padding: 0 20px;
+    }
+
+    .logo img {
+        height: 62px;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    nav {
+        position: fixed;
+        top: 88px;
+        left: 0;
+        width: 100%;
+        background: var(--white);
+        flex-direction: column;
+        align-items: stretch;
+        padding: 20px;
+        gap: 10px;
+        transform: translateY(-130%);
+        transition: var(--transition);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    nav a {
+        padding: 10px 0;
+    }
+
+    nav.show {
+        transform: translateY(0);
+    }
+
+    .hero {
+        min-height: auto;
+        padding: 84px 0 56px;
+    }
+
+    .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 42px;
+    }
+
+    .hero-text p {
+        margin: 0 auto 30px;
+    }
+
+    .hero-btns {
+        justify-content: center;
+    }
+
+    .hero-stats {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 24px;
+    }
+
+    .hero-img {
+        height: 420px;
+    }
+
+    .app-mockup-card {
+        right: 10px;
+    }
+
+    .technician-note {
+        left: 10px;
+        bottom: 14px;
+    }
+
+    .badge-1 {
+        left: 10px;
+    }
+
+    .badge-2 {
+        right: 10px;
+    }
+
+    .calculator-container,
+    .tracking-card,
+    .booking-form,
+    .card,
+    .pricing-card {
+        padding: 28px;
+    }
+
+    .calc-box {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .booking-wrapper {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .services-grid,
+    .pricing-grid,
+    .ba-grid,
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pricing-card.featured {
+        transform: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .promo-banner {
+        font-size: 0.78rem;
+        padding: 8px 12px;
+    }
+
+    .hero-text h1 {
+        font-size: 2.2rem;
+        line-height: 1.2;
+    }
+
+    .hero-text p {
+        font-size: 1rem;
+    }
+
+    .badge,
+    .floating-badge {
+        font-size: 0.8rem;
+    }
+
+    .floating-badge {
+        padding: 10px 12px;
+        gap: 8px;
+    }
+
+    .hero-img {
+        height: 320px;
+        border-radius: 24px;
+    }
+
+    .app-mockup-card {
+        width: 185px;
+        top: 10px;
+    }
+
+    .technician-note {
+        padding: 8px 10px;
+    }
+
+    .hero-stats {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .stat-item {
+        justify-content: center;
+    }
+
+    .section {
+        padding: 68px 0;
+    }
+
+    .section-header {
+        margin-bottom: 36px;
+    }
+
+    .section h2 {
+        font-size: 1.8rem;
+    }
+
+    .tracking-input {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .tracking-input .btn-primary {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .last-booking-shortcut {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .status-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .status-steps-modern {
+        grid-template-columns: 1fr;
+    }
+
+    .order-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-info {
+        gap: 24px;
+        margin-bottom: 28px;
+    }
+
+    .footer-info-item {
+        text-align: center;
+    }
+
+    .footer-grid {
+        gap: 28px;
+        margin-bottom: 32px;
+    }
+
+    .wa-floating {
+        right: 14px;
+        bottom: 14px;
+        padding: 9px 12px;
+    }
+
+    .wa-floating span {
+        display: none;
+    }
+}

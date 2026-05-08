@@ -1,0 +1,259 @@
+.tracking-card {
+    max-width: 800px;
+    margin: 0 auto;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 251, 255, 0.95) 100%);
+    backdrop-filter: blur(6px);
+    padding: 50px;
+    border-radius: 30px;
+    box-shadow: 0 18px 36px rgba(15, 23, 42, 0.12);
+    text-align: center;
+    border: 1px solid rgba(226, 232, 240, 0.95);
+}
+
+.tracking-input {
+    display: flex;
+    gap: 10px;
+    margin: 30px 0;
+}
+
+.tracking-input input {
+    flex: 1;
+    padding: 15px 20px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.tracking-input input:focus {
+    border-color: var(--accent);
+    outline: none;
+}
+
+.tracking-error {
+    margin-top: -10px;
+    margin-bottom: 18px;
+    text-align: left;
+    color: #b91c1c;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+}
+
+.last-booking-shortcut {
+    background: #eff6ff;
+    border: 1px solid #dbeafe;
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 18px;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+}
+
+.last-booking-shortcut p {
+    margin: 0;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.last-booking-shortcut .btn-secondary {
+    padding: 10px 16px;
+}
+
+.tracking-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    color: var(--text-muted);
+}
+
+.loading-spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid #dbeafe;
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.status-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.status-order-id {
+    margin: 0;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    background: #e0f2fe;
+    color: #0369a1;
+    border-radius: 999px;
+    padding: 7px 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.status-steps-modern {
+    margin: 24px 0 30px;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.timeline-step {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 10px 8px;
+    text-align: center;
+}
+
+.timeline-step p {
+    margin: 8px 0 0;
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.timeline-index {
+    display: inline-flex;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    background: #e2e8f0;
+    color: #475569;
+    font-weight: 700;
+    font-size: 0.78rem;
+}
+
+.timeline-step.done {
+    background: #ecfdf5;
+    border-color: #86efac;
+}
+
+.timeline-step.done .timeline-index {
+    background: #22c55e;
+    color: #fff;
+}
+
+.timeline-step.active {
+    background: #eff6ff;
+    border-color: #93c5fd;
+}
+
+.timeline-step.active .timeline-index {
+    background: var(--primary);
+    color: #fff;
+}
+
+.timeline-step.active p {
+    color: var(--primary);
+}
+
+.order-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.order-detail-item {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 10px 12px;
+    text-align: left;
+}
+
+.order-detail-item span {
+    display: block;
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.order-detail-item strong {
+    font-size: 0.9rem;
+    color: var(--text-main);
+}
+
+.status-steps {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px auto;
+    position: relative;
+    max-width: 500px;
+}
+
+.status-steps.simple-status::before {
+    top: 25px;
+    width: 100%;
+}
+
+.status-info-box {
+    background: #f1f5f9;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 30px;
+}
+
+.status-info {
+    font-size: 1rem;
+    color: var(--text-main);
+    margin: 0;
+}
+
+.status-steps::before {
+    content: '';
+    position: absolute;
+    top: 25px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #e2e8f0;
+    z-index: 1;
+}
+
+.step {
+    position: relative;
+    z-index: 2;
+    background: var(--white);
+    width: 50px;
+    text-align: center;
+}
+
+.step i {
+    width: 50px;
+    height: 50px;
+    background: #f1f5f9;
+    border-radius: 50%;
+    padding: 12px;
+    margin-bottom: 10px;
+    color: #94a3b8;
+}
+
+.step.active i {
+    background: var(--accent);
+    color: var(--white);
+}
+
+.step p {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--primary);
+}
