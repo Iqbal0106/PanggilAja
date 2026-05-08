@@ -713,7 +713,7 @@ nav a:hover i, nav a.active i {
 
 .ba-label {
     position: absolute;
-    top: 15px;
+    bottom: 10px;
     left: 15px;
     padding: 5px 12px;
     border-radius: 6px;
@@ -737,20 +737,6 @@ nav a:hover i, nav a.active i {
     color: var(--text-muted);
     font-size: 0.9rem;
 }
-
-.ba-label {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: white;
-}
-
-.ba-label.before { background: #ef4444; }
-.ba-label.after { background: #10b981; }
 
 .ba-caption {
     text-align: center;
