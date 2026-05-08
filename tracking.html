@@ -102,40 +102,72 @@
 </footer>
 <script src="script.js"></script>
 <script>
-    const trackOrder = () => {
-        const orderId = document.getElementById('order-id').value.trim();
-        const resultDiv = document.getElementById('tracking-result');
+    const getStoredOrders = () => {
+        try {
+            return JSON.parse(localStorage.getItem('panggilAjaOrders') || '[]');
+        } catch (error) {
+            return [];
+        }
+    };
+
+    const resetSteps = () => {
+        const step2 = document.getElementById('step-2');
+        const step3 = document.getElementById('step-3');
+        step2.classList.remove('active');
+        step3.classList.remove('active');
+    };
+
+    const renderStatus = (status) => {
         const statusText = document.getElementById('current-status-text');
         const step2 = document.getElementById('step-2');
         const step3 = document.getElementById('step-3');
+
+        resetSteps();
+
+        if (status === 'Diproses') {
+            step2.classList.add('active');
+        } else if (status === 'Selesai') {
+            step2.classList.add('active');
+            step3.classList.add('active');
+        }
+
+        statusText.innerText = status;
+    };
+
+    const trackOrder = () => {
+        const orderId = document.getElementById('order-id').value.trim();
+        const resultDiv = document.getElementById('tracking-result');
 
         if (orderId === "") { 
             alert("Silakan masukkan ID Pesanan"); 
             return; 
         }
 
-        // Mock logic for simple status
-        resultDiv.classList.remove('hidden');
-        
-        // Randomly show one of the 3 statuses for demo purposes
-        const randomStatus = Math.floor(Math.random() * 3);
-        
-        if (randomStatus === 0) {
-            statusText.innerText = "Pesanan sedang menunggu penjemputan";
-            step2.classList.remove('active');
-            step3.classList.remove('active');
-        } else if (randomStatus === 1) {
-            statusText.innerText = "Pesanan sedang diproses oleh tim kami";
-            step2.classList.add('active');
-            step3.classList.remove('active');
-        } else {
-            statusText.innerText = "Pesanan telah selesai! Terima kasih.";
-            step2.classList.add('active');
-            step3.classList.add('active');
+        const orders = getStoredOrders();
+        const matchedOrder = orders.find(order => order.id.toLowerCase() === orderId.toLowerCase());
+
+        if (!matchedOrder) {
+            alert('ID pesanan tidak ditemukan. Pastikan ID benar.');
+            return;
         }
-        
+
+        resultDiv.classList.remove('hidden');
+        renderStatus(matchedOrder.status || 'Menunggu Konfirmasi');
+
         lucide.createIcons();
     };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(window.location.search);
+        const orderIdFromUrl = params.get('orderId');
+        const orderInput = document.getElementById('order-id');
+
+        if (orderIdFromUrl && orderInput) {
+            orderInput.value = orderIdFromUrl;
+            trackOrder();
+        }
+    });
+
     lucide.createIcons();
 </script>
 </body>

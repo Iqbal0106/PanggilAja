@@ -1,5 +1,10 @@
 // --- BOOKING FORM ---
 const bookingForm = document.getElementById('booking-form');
+const successBox = document.getElementById('booking-success');
+const successOrderId = document.getElementById('success-order-id');
+const successOrderStatus = document.getElementById('success-order-status');
+const successOrderEta = document.getElementById('success-order-eta');
+const successTrackLink = document.getElementById('success-track-link');
 
 // Pre-select service from URL
 const serviceLabels = {
@@ -48,21 +53,31 @@ if (bookingForm) {
         const date = formData.get('tanggal');
         const alamat = formData.get('alamat');
         const waktu = formData.get('waktu');
-        
-        // Create WhatsApp Message
-        const message = `Halo Panggil Aja, saya ingin memesan layanan:%0A%0A` +
-                        `Nama: ${name}%0A` +
-                        `Alamat: ${alamat}%0A` +
-                        `Layanan: ${service}%0A` +
-                        `Tanggal: ${date}%0A` +
-                        `Waktu: ${waktu}%0A%0A` +
-                        `Mohon konfirmasinya. Terima kasih!`;
-        
-        const waUrl = `https://wa.me/62895413318989?text=${message}`;
-        
-        // Redirect to WA
-        window.open(waUrl, '_blank');
-        alert('Terima kasih! Anda akan diarahkan ke WhatsApp untuk konfirmasi.');
-        bookingForm.reset();
+
+        const now = Date.now();
+        const shortId = String(now).slice(-4);
+        const orderId = `PGL-${shortId}`;
+        const status = 'Menunggu Konfirmasi';
+        const eta = `${date} ${waktu} WITA`;
+
+        const existingOrders = JSON.parse(localStorage.getItem('panggilAjaOrders') || '[]');
+        existingOrders.push({
+            id: orderId,
+            name,
+            service,
+            address: alamat,
+            date,
+            time: waktu,
+            status,
+            eta,
+            createdAt: now
+        });
+        localStorage.setItem('panggilAjaOrders', JSON.stringify(existingOrders));
+
+        if (successOrderId) successOrderId.textContent = orderId;
+        if (successOrderStatus) successOrderStatus.textContent = status;
+        if (successOrderEta) successOrderEta.textContent = eta;
+        if (successTrackLink) successTrackLink.setAttribute('href', `tracking.html?orderId=${encodeURIComponent(orderId)}`);
+        if (successBox) successBox.classList.remove('hidden');
     });
 }
