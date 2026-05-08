@@ -1159,28 +1159,6 @@ nav a:hover i, nav a.active i {
     height: 18px;
 }
 
-/* SOCIAL PROOF */
-.social-proof {
-    position: fixed;
-    bottom: 30px;
-    left: 30px;
-    background: var(--white);
-    padding: 15px 20px;
-    border-radius: 12px;
-    box-shadow: var(--shadow-lg);
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    transform: translateY(150%);
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    z-index: 998;
-}
-
-.social-proof.show { transform: translateY(0); }
-.sp-icon { background: #fff7ed; color: var(--accent); padding: 8px; border-radius: 8px; }
-.sp-text p { font-size: 0.875rem; margin: 0; }
-.sp-text span { font-size: 0.75rem; color: var(--text-muted); }
-
 /* FOOTER */
 footer {
     padding: 60px 0 30px;
